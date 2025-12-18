@@ -1,0 +1,237 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" id="pwa-svg">
+    <defs>
+        <linearGradient id="rainbow-fill" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:red" />
+            <stop offset="16.6%" style="stop-color:orange" />
+            <stop offset="100%" style="stop-color:violet" />
+        </linearGradient>
+        <linearGradient id="rainbow-fill2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:red" /><stop offset="16%" style="stop-color:orange" />
+            <stop offset="32%" style="stop-color:yellow" /><stop offset="48%" style="stop-color:green" />
+            <stop offset="64%" style="stop-color:blue" /><stop offset="80%" style="stop-color:indigo" />
+            <stop offset="100%" style="stop-color:violet" />
+        </linearGradient>
+        <linearGradient id="rainbow-nose" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="red" /><stop offset="100%" stop-color="orange" />
+        </linearGradient>
+        <polygon id="star-shape" points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35" />
+    </defs>
+
+    <style>
+        svg { background: #a0d8ef; cursor: none; font-family: sans-serif; }
+        .iris { transform-box: fill-box; transform-origin: center; transition: fill 0.3s linear; }
+        
+        /* ステッキ本体 */
+        #magic-stick-svg {
+            pointer-events: none;
+            width: 140px; height: 12px;
+            fill: linear-gradient(90deg, #c39bff, #ffb3ec, #ff7ada);
+            filter: drop-shadow(0 0 6px rgba(255,140,255,0.6));
+        }
+        
+        /* 星の先端 */
+        #magic-tip-svg {
+            pointer-events: none;
+            fill: radial-gradient(circle, #fff7ff, #ffe3ff, #ff9bff, #ff47d8);
+            filter: drop-shadow(0 0 12px #ff9bff);
+            animation: tip-rainbow 1.8s linear infinite;
+        }
+
+        @keyframes tip-rainbow {
+            0% { filter: hue-rotate(0deg) brightness(1.1); transform: scale(1) translate(-50px, -50px); }
+            50% { filter: hue-rotate(180deg) brightness(1.4); transform: scale(1.05) translate(-50px, -50px); }
+            100% { filter: hue-rotate(360deg) brightness(1.1); transform: scale(1.15) translate(-50px, -50px); }
+        }
+
+        /* 鼻の虹色アニメーション用クラス */
+        .rainbow-flow { animation: rainbow 2s linear infinite; }
+        @keyframes rainbow { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+
+        /* パーティクル（星形） */
+        .particle { pointer-events: none; fill: #ff47d8; }
+        
+        .hidden { opacity: 0; transition: opacity 0.3s ease; }
+        .hidden-particle { opacity: 0 !important; }
+    </style>
+
+    <path d="M 50 200 A 250 250 0 0 1 550 200" fill="none" stroke="url(#rainbow-fill2)" stroke-width="3" stroke-linecap="round" />
+
+    <ellipse cx="245" cy="52" rx="15" ry="20" fill="white" />
+    <ellipse cx="315" cy="52" rx="15" ry="20" fill="white" />
+    <ellipse id="eye-left" class="iris" cx="245" cy="52" rx="5" ry="12" fill="url(#rainbow-fill)">
+        <animate attributeName="ry" values="12;12;0.1;12" keyTimes="0;0.95;0.97;1" dur="3s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse id="eye-right" class="iris" cx="315" cy="52" rx="5" ry="12" fill="url(#rainbow-fill)">
+        <animate attributeName="ry" values="12;12;0.1;12" keyTimes="0;0.95;0.97;1" dur="3s" repeatCount="indefinite"/>
+    </ellipse>
+
+    <g id="rainbow-lines">
+        <line id="rain-line1" x1="30" y1="80" x2="180" y2="110" stroke="black" stroke-width="3" visibility="hidden"/>
+        <line id="rain-line2" x1="30" y1="130" x2="180" y2="130" stroke="black" stroke-width="2" visibility="hidden"/>
+        <line id="rain-line3" x1="30" y1="180" x2="180" y2="150" stroke="black" stroke-width="3" visibility="hidden"/>
+        <line id="rain-line4" x1="340" y1="110" x2="503" y2="80" stroke="black" stroke-width="3" visibility="hidden"/>
+        <line id="rain-line5" x1="340" y1="130" x2="520" y2="130" stroke="black" stroke-width="2" visibility="hidden"/>
+        <line id="rain-line6" x1="340" y1="150" x2="520" y2="180" stroke="black" stroke-width="3" visibility="hidden"/>
+        <line id="rain-line7" x1="280" y1="100" x2="280" y2="150" stroke="black" stroke-width="2" visibility="hidden"/>
+    </g>
+
+    <circle id="nose" cx="280" cy="85" r="14" fill="url(#rainbow-nose)" stroke="url(#rainbow-nose)" stroke-width="2.5" />
+
+    <g fill="url(#rainbow-fill2)" font-family="Arial" font-weight="bold">
+        <text x="105" y="82" font-size="46">K S -</text>
+        <text x="215" y="98" font-size="96">9</text>
+        <text x="290" y="94" font-size="96">0</text>
+        <text x="360" y="92" font-size="96">3</text>
+    </g>
+
+    <g id="magic-particles"></g>
+
+    <g id="magic-stick-container">
+        <rect id="magic-stick-svg" width="140" height="12" rx="6" fill="#ffb3ec" transform="rotate(-30) translate(-140, -6)" />
+        <g id="magic-tip-anim-node">
+            <use href="#star-shape" id="magic-tip-svg" x="0" y="0" transform="scale(0.36) translate(-50, -50)" />
+        </g>
+    </g>
+
+    <script type="text/ecmascript">
+    <![CDATA[
+        const svg = document.getElementById('pwa-svg');
+        const stickContainer = document.getElementById('magic-stick-container');
+        const tipAnimNode = document.getElementById('magic-tip-anim-node');
+        const particlesContainer = document.getElementById('magic-particles');
+        const nose = document.getElementById('nose');
+        const eyeLeft = document.getElementById('eye-left');
+        const eyeRight = document.getElementById('eye-right');
+        const lines = ["1","2","3","4","5","6","7"].map(id => document.getElementById("rain-line"+id));
+        
+        const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+        let angle = 0;
+        const radius = 18;
+        let lookInterval, mouseMoveTimer;
+        let hoverIntervals = [];
+
+        // 座標変換関数
+        function getSVGPoint(e) {
+            const pt = svg.createSVGPoint();
+            pt.x = e.clientX; pt.y = e.clientY;
+            return pt.matrixTransform(svg.getScreenCTM().inverse());
+        }
+
+        // パーティクル生成
+        function spawnParticle(x, y) {
+            const p = document.createElementNS("http://www.w3.org/2000/svg", "use");
+            p.setAttributeNS("http://www.w3.org/1999/xlink", "href", "#star-shape");
+            p.setAttribute("class", "particle");
+            
+            const pAngle = Math.random() * 2 * Math.PI;
+            const speed = Math.random() * 2 + 1;
+            const dx = Math.cos(pAngle) * speed * 50;
+            const dy = Math.sin(pAngle) * speed * 50;
+            
+            p.setAttribute("transform", `translate(${x}, ${y}) scale(0.06) translate(-50, -50)`);
+            particlesContainer.appendChild(p);
+
+            const startTime = Date.now();
+            const duration = 1000;
+            
+            function animateP() {
+                const elapsed = Date.now() - startTime;
+                const progress = elapsed / duration;
+                if (progress < 1) {
+                    const curX = x + dx * progress;
+                    const curY = y + dy * progress;
+                    const scale = 0.06 * (1 - progress);
+                    p.setAttribute("transform", `translate(${curX}, ${curY}) scale(${scale}) translate(-50, -50)`);
+                    p.setAttribute("opacity", 1 - progress);
+                    requestAnimationFrame(animateP);
+                } else {
+                    p.remove();
+                }
+            }
+            requestAnimationFrame(animateP);
+        }
+
+        // マウス移動
+        document.addEventListener('mousemove', (e) => {
+            const p = getSVGPoint(e);
+            stickContainer.setAttribute("transform", `translate(${p.x}, ${p.y})`);
+            
+            // 目の追尾
+            stopLookingAnimation();
+            [eyeLeft, eyeRight].forEach(eye => {
+                const ex = eye.cx.baseVal.value;
+                const ey = eye.cy.baseVal.value;
+                const eAngle = Math.atan2(p.y - ey, p.x - ex);
+                const ox = Math.cos(eAngle) * 5;
+                const oy = Math.sin(eAngle) * 5;
+                eye.style.transform = `translate(${ox}px, ${oy}px)`;
+            });
+
+            clearTimeout(mouseMoveTimer);
+            mouseMoveTimer = setTimeout(startLookingAnimation, 150);
+        });
+
+        // 星先端の円運動とパーティクル
+        setInterval(() => {
+            angle += 0.1;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            tipAnimNode.setAttribute("transform", `translate(${x}, ${y})`);
+            
+            // 画面上の絶対位置を計算してパーティクルを出す
+            const CTM = tipAnimNode.getScreenCTM();
+            const pt = svg.createSVGPoint();
+            const svgP = pt.matrixTransform(svg.getScreenCTM().inverse().multiply(CTM));
+            spawnParticle(svgP.x, svgP.y);
+        }, 16);
+
+        // 目のキョロキョロ
+        function startLookingAnimation() {
+            if (lookInterval) return;
+            let currentPos = 0; let direction = 1;
+            lookInterval = setInterval(() => {
+                currentPos += direction * 0.5;
+                if (Math.abs(currentPos) >= 5) direction *= -1;
+                eyeLeft.style.transform = `translateX(${currentPos}px)`;
+                eyeRight.style.transform = `translateX(${currentPos}px)`;
+            }, 50);
+        }
+        function stopLookingAnimation() { clearInterval(lookInterval); lookInterval = null; }
+
+        // 鼻のホバー
+        nose.addEventListener("mouseenter", () => {
+            nose.classList.add("rainbow-flow");
+            lines.forEach((line, idx) => {
+                line.setAttribute("visibility", "visible");
+                const interval = setInterval(() => {
+                    const c = colors[Math.floor(Math.random() * colors.length)];
+                    line.setAttribute("stroke", c);
+                }, 200 + Math.random() * 300);
+                hoverIntervals.push(interval);
+            });
+            particlesContainer.classList.add("hidden");
+        });
+
+        nose.addEventListener("mouseleave", () => {
+            nose.classList.remove("rainbow-flow");
+            hoverIntervals.forEach(clearInterval);
+            hoverIntervals = [];
+            lines.forEach(line => {
+                line.setAttribute("visibility", "hidden");
+                line.setAttribute("stroke", "black");
+            });
+            particlesContainer.classList.remove("hidden");
+        });
+
+        // 目の色ループ
+        let colorIdx = 0;
+        setInterval(() => {
+            eyeLeft.setAttribute("fill", colors[colorIdx]);
+            eyeRight.setAttribute("fill", colors[colorIdx]);
+            colorIdx = (colorIdx + 1) % colors.length;
+        }, 300);
+
+        startLookingAnimation();
+    ]]>
+    </script>
+</svg>

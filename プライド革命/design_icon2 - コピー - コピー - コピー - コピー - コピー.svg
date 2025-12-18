@@ -1,0 +1,565 @@
+<svg width="600" height="600" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+    <linearGradient id="rainbow-fill" class="flow-rainbow" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:red" />
+        <stop offset="16.6%" style="stop-color:orange" />
+        <stop offset="100%" style="stop-color:violet" />
+    </linearGradient>
+</defs>
+     <defs>
+        <linearGradient id="rainbow-fill2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:red" />
+            <stop offset="16%" style="stop-color:orange" />
+            <stop offset="32%" style="stop-color:yellow" />
+            <stop offset="48%" style="stop-color:green" />
+            <stop offset="64%" style="stop-color:blue" />
+            <stop offset="80%" style="stop-color:indigo" />
+            <stop offset="100%" style="stop-color:violet" />
+        </linearGradient>
+    </defs>
+    <defs>
+    <linearGradient id="rainbow-nose" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop id="nose-stop1" offset="0%" stop-color="red" />
+        <stop id="nose-stop2" offset="100%" stop-color="orange" />
+    </linearGradient>
+</defs>
+        <style type="text/css">
+            svg { cursor: none; background: #a0d8ef; }
+          #magic-stick, #magic-tip {
+            position: absolute;
+            pointer-events: none; 
+          }
+          #magic-stick {
+            width: 140px;
+            height: 12px; 
+            background: linear-gradient(90deg, #c39bff 0%, #ffb3ec 50%, #ff7ada 100% );
+            border-radius: 999px;
+            pointer-events: none;
+            transform-origin: right center; 
+            transform: rotate(-30deg); 
+            box-shadow: 0 0 6px rgba(255, 140, 255, 0.6), inset 0 0 3px rgba(255, 255, 255, 0.8);
+            left: -120px; 
+            top: 12px;
+          }
+          #magic-tip {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            pointer-events: none;
+            clip-path: polygon(
+              50% 0%, 
+              61% 35%, 
+              98% 35%, 
+              68% 57%, 
+              79% 91%, 
+              50% 70%, 
+              21% 91%, 
+              32% 57%, 
+              2% 35%, 
+              39% 35%
+            );
+            background: radial-gradient(circle, #fff7ff 0%, #ffe3ff 40%, #ff9bff 70%, #ff47d8 100% );
+            box-shadow: 0 0 12px #ff9bff, 0 0 22px #ff47d8, 0 0 45px #ff47d8;
+            animation: tip-rainbow 1.8s linear infinite;
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+          }
+          @keyframes stick-flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+          }
+          #feedback-overlay {
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              font-size: 4em;
+              color: #ff007f;
+              text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+              z-index: 101;
+              opacity: 0;
+              transition: opacity 0.2s ease-in-out;
+          }
+          .hidden {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none; 
+          }
+          .show-feedback {
+              opacity: 1 !important;
+          }
+
+          .hidden-particle {
+            opacity: 0 !important;
+            transform: scale(0) !important;
+            pointer-events: none !important;
+            transition: opacity 0.2s linear;
+          }
+          .magic-particle2 {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            background: radial-gradient(circle, white, gold, orange);
+            opacity: 0.9;
+            filter: blur(2px);
+            animation: sparkle 1s infinite;
+            z-index: 1000;
+          }
+          @keyframes sparkle {
+            0% { transform: scale(1) translate(0,0); opacity: 1; filter: blur(2px); }
+            50% { transform: scale(1.5) translate(var(--dx,0), var(--dy,0)); opacity: 0.6; filter: blur(4px); }
+            100% { transform: scale(1) translate(0,0); opacity: 1; filter: blur(2px); }
+          }
+          @keyframes tip-rainbow {
+            0% { filter: hue-rotate(0deg) brightness(1.1); transform: scale(1); }
+            50% { filter: hue-rotate(180deg) brightness(1.4); transform: scale(1.05); }
+            100% { filter: hue-rotate(360deg) brightness(1.1); transform: scale(1.15); }
+          }
+          #magic-particles .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle,#fff7ff,#ff47d8);
+            clip-path: polygon(
+              50% 0%, 
+              61% 35%, 
+              98% 35%, 
+              68% 57%, 
+              79% 91%, 
+              50% 70%, 
+              21% 91%, 
+              32% 57%, 
+              2% 35%, 
+              39% 35%
+            );
+            pointer-events:none;
+            animation: moveParticle 1s linear forwards;
+          }
+
+          @keyframes moveParticle {
+            to {
+              transform: translate(var(--dx), var(--dy)) scale(0);
+              opacity:0;
+            }
+          }
+          #svg-container {
+            margin-bottom: 20px;
+          }
+          .iris {
+            transform-box: fill-box;
+            transform-origin: center;
+            transition: fill 0.3s linear;
+            animation-duration: 2s; 
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            transform: translateX(0);
+          }
+          @keyframes look {
+            0% { transform: translateX(0px); }
+            50% { transform: translateX(5px); }
+            100% { transform: translateX(-5px); }
+          }
+          @keyframes rainbow-cycle {
+            0% { background-color: red; }
+            16% { background-color: orange; }
+            33% { background-color: yellow; }
+            50% { background-color: green; }
+            66% { background-color: blue; }
+            83% { background-color: indigo; }
+            100% { background-color: violet; }
+          }
+          @keyframes shine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+          }
+          @keyframes flow-gradient {
+            0% { transform: translate(-50%, 0); }
+            100% { transform: translate(50%, 0); }
+          }
+          .flow-rainbow {
+            animation: flow-gradient 8s linear infinite alternate;
+            transform-box: fill-box;
+            transform-origin: center;
+          }
+          .rainbow-box {
+            width: 300px;
+            height: 150px;
+            border-radius: 15px;
+            background: linear-gradient(
+              90deg, 
+              #ff0000,
+              #ff7f00,
+              #ffff00, 
+              #00ff00, 
+              #0000ff, 
+              #4b0082, 
+              #9400d3,
+              #ff0000 
+            );
+            background-size: 200% 100%;
+            animation: shine 8s linear infinite;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          }
+          .flow-rainbow {
+            animation: flow-gradient 8s linear infinite alternate;
+            transform-box: fill-box;
+            transform-origin: center;
+          }
+          #nose {
+            transition: filter 0.2s linear;
+          }
+          #nose:hover {
+            cursor: crosshair;
+          }
+          .rainbow-flow {
+            animation: rainbow 2s linear infinite;
+          }
+          @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+          }
+          @keyframes flow-gradient {
+            0% { transform: translate(-50%, 0); }
+            100% { transform: translate(50%, 0); }
+          }
+          .svg-title {
+            font-size: 24px;
+            color: #0a74da;
+            margin-bottom: 10px;
+          }
+          h1 { margin:0; font-size:24px; color:#0a74da; }
+          p { font-size:16px; color:#333; text-align:center; max-width:300px; }
+        </style>
+ <path
+        d="M 50 200 A 250 250 0 0 1 550 200"
+        fill="none"
+        stroke="url(#rainbow-fill2)"
+        stroke-width="3"
+        stroke-linecap="round"
+    />
+    <ellipse cx="245" cy="52" rx="15" ry="20" fill="white" stroke="" stroke-width="1.5"/>
+    
+    <ellipse cx="315" cy="52" rx="15" ry="20" fill="white" stroke="" stroke-width="1.5"/>
+    <ellipse class="iris" id="eye-right" cx="315" cy="52" rx="5" ry="12" fill="url(#rainbow-fill)" stroke="" stroke-width="1.5">  
+        <animate attributeName="ry" 
+                 values="12; 12; 0.1; 12" 
+                 keyTimes="0; 0.95; 0.97; 1" 
+                 dur="3s" 
+                 repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse class="iris" id="eye-left" cx="245" cy="52" rx="5" ry="12" fill="url(#rainbow-fill)" stroke="" stroke-width="1.5">
+    <animate attributeName="ry" 
+              values="12; 12; 0.1; 12" 
+              keyTimes="0; 0.95; 0.97; 1" 
+              dur="3s" 
+              repeatCount="indefinite"/>
+</ellipse>
+    <line id="rain-line1" x1="30" y1="80" x2="180" y2="110" stroke="black" stroke-width="3" />
+    <line id="rain-line2" x1="30" y1="130" x2="180" y2="130" stroke="black" stroke-width="2"/>
+    <line id="rain-line3" x1="30" y1="180" x2="180" y2="150" stroke="black" stroke-width="3"/> 
+    <line id="rain-line4" x1="340" y1="110" x2="503" y2="80" stroke="black" stroke-width="3" />
+    <line id="rain-line5" x1="340" y1="130" x2="520" y2="130" stroke="black" stroke-width="2" />
+    <line id="rain-line6" x1="340" y1="150" x2="520" y2="180" stroke="black" stroke-width="3" />
+    <circle id="nose" cx="280" cy="85" r="14" fill="url(#rainbow-nose)" stroke="url(#rainbow-nose)" stroke-width="2.5" />
+
+    <text x="105" y="82" font-family="Arial, sans-serif" font-size="46" font-weight="1.5" fill="url(#rainbow-fill2)" >
+           K  S -      
+    </text>
+ <text x="215" y="98" font-family="Arial, sans-serif" font-size="96" font-weight="1.5" fill="url(#rainbow-fill2)" transform="rotate(0 30 50)"> 
+           9      
+    </text>
+    <text x="290" y="94" font-family="Arial, sans-serif" font-size="96" font-weight="1.5" fill="url(#rainbow-fill2)" >
+            0      
+    </text>
+    <text x="360" y="92" font-family="Arial, sans-serif" font-size="96" font-weight="1.5" fill="url(#rainbow-fill2)" >
+            3    
+    </text>
+    <line id="rain-line7" x1="280" y1="100" x2="280" y2="150" stroke="black" stroke-width="2" />
+    <foreignObject x="0" y="0" width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            <div id="magic-particles"></div>
+            <div id="magic-stick" style="position: fixed; pointer-events: none;"></div>
+            <div id="magic-tip" style="position: fixed; pointer-events: none;"></div>
+        </div>
+    </foreignObject>
+    <script type="text/ecmascript">
+    <![CDATA[
+    
+      const colors = [
+    "red", "orange", "yellow",
+    "green", "blue", "indigo", "violet"
+];
+let i = 0;
+setInterval(() => {
+    const left = document.getElementById("eye-left");
+    const right = document.getElementById("eye-right");
+    left.setAttribute("fill", colors[i]);
+    right.setAttribute("fill", colors[i]);
+    i = (i + 1) % colors.length;
+}, 300);
+const nose = document.getElementById("nose");
+const tip = document.getElementById("magic-tip");
+const particle = document.createElementNS("http://www.w3.org/1999/xhtml", "div");
+const lines = ["rain-line1","rain-line2","rain-line3","rain-line4","rain-line5","rain-line6","rain-line7"]
+              .map(id => document.getElementById(id));
+
+const colorline = ["red","orange","yellow","green","blue","indigo","violet"];
+let lineIndexes = lines.map((_, i) => i % colorline.length);
+let lineSpeeds = lines.map(() => 200 + Math.random() * 300);
+let hoverIntervals = [];
+const eyeLeft = document.getElementById("eye-left");
+const eyeRight = document.getElementById("eye-right");
+const eyes = [
+    { el: eyeLeft, cx: 245, cy: 52 }, // 左目 (元のcx, cy)
+    { el: eyeRight, cx: 315, cy: 52 }  // 右目 (元のcx, cy)
+];
+let lookInterval;
+let mouseMoveTimer;
+const MOUSE_STOP_DELAY = 150; 
+function startLookingAnimation() {
+    if (lookInterval) return; 
+    eyes.forEach(eye => {
+        eye.el.style.transform = 'translateX(0)';
+    });
+    let currentPos = 0;
+    let direction = 1; 
+    const maxLookOffset = 5; 
+    const step = 0.5; 
+    lookInterval = setInterval(() => {
+        currentPos += direction * step;
+        if (currentPos >= maxLookOffset) {
+            currentPos = maxLookOffset;
+            direction = -1;
+        } else if (currentPos <= -maxLookOffset) {
+            currentPos = -maxLookOffset;
+            direction = 1;
+        }
+        eyes.forEach(eye => {
+            eye.el.style.transform = `translateX(${currentPos}px)`;
+        });
+    }, 50); 
+}
+function stopLookingAnimation() {
+    if (lookInterval) {
+        clearInterval(lookInterval);
+        lookInterval = null;
+    }
+}
+startLookingAnimation();
+document.addEventListener("mousemove", (e) => {
+    stopLookingAnimation();
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    eyes.forEach(eye => {
+        const eyeRect = eye.el.getBoundingClientRect();
+        const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+        const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+        const angle = Math.atan2(mouseY - eyeCenterY, mouseX - eyeCenterX);
+        const maxOffset = 5;
+        const offsetX = Math.cos(angle) * maxOffset;
+        const offsetY = Math.sin(angle) * maxOffset;
+        eye.el.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+    clearTimeout(mouseMoveTimer);
+    mouseMoveTimer = setTimeout(() => {
+        startLookingAnimation();
+    }, MOUSE_STOP_DELAY);
+});
+nose.addEventListener("mouseenter", () => {
+nose.style.animationDuration = "2s";
+nose.classList.add("rainbow-flow");
+tip.classList.add("hidden");
+const allParticles = document.querySelectorAll("#magic-particles .particle");
+    allParticles.forEach(p => p.classList.add("hidden-particle"));
+    const cx = nose.cx.baseVal.value;
+    const cy = nose.cy.baseVal.value;    
+    lines.forEach(line => line.setAttribute("visibility","visible"));
+    if(hoverIntervals.length) return; 
+    lines.forEach((line, i) => {
+    const interval = setInterval(() => {
+      line.setAttribute("stroke", colorline[lineIndexes[i]]);
+      lineIndexes[i] = (lineIndexes[i] + 1) % colorline.length;
+    }, lineSpeeds[i]);
+    hoverIntervals.push(interval);
+  }, 100);
+particles.forEach(p => p.classList.add("hidden"));
+});
+nose.addEventListener("mouseleave", () => {
+  nose.classList.remove("rainbow-flow");
+  tip.classList.remove("hidden");
+  const allParticles = document.querySelectorAll("#magic-particles .particle");
+    allParticles.forEach(p => p.classList.remove("hidden-particle"));
+     lines.forEach(line => line.setAttribute("stroke", "black"));
+     hoverIntervals.forEach(interval => clearInterval(interval));
+    hoverIntervals = [];
+});
+let angle = 0;
+const radius = 18;
+document.addEventListener("mousemove", (e) => {
+    const stick = document.getElementById("magic-stick");
+    const stickX = e.pageX - 140;
+    const stickY = e.pageY - 10;
+    stick.style.left = stickX + "px";
+    stick.style.top  = stickY + "px";
+    window.tipBaseX = stickX + 140;
+    window.tipBaseY = stickY + 6;
+});
+setInterval(() => {
+    const tip = document.getElementById("magic-tip");
+    const particles = document.querySelectorAll(".magic-particle2");  
+    if (!window.tipBaseX) return;
+    angle += 0.1;
+    const x = window.tipBaseX + Math.cos(angle) * radius;
+    const y = window.tipBaseY + Math.sin(angle) * radius;
+    tip.style.left = x + "px";
+    tip.style.top  = y + "px";
+    spawnParticle(x, y);
+}, 16);
+function spawnParticle(x, y) {
+    const container = document.getElementById("magic-particles");
+    if (!container) return; // コンテナが見つからない場合は処理を中断
+
+    // HTMLの名前空間を指定してdivを作成
+    const particle = document.createElementNS("http://www.w3.org/1999/xhtml", "div");
+    particle.className = "particle";
+    
+    const angle = Math.random() * 2 * Math.PI;
+    const speed = Math.random() * 2 + 1;
+    
+    // スタイルを設定
+    particle.style.position = "absolute"; // CSSで設定済みでもJSで補強すると安全です
+    particle.style.left = x + "px";
+    particle.style.top  = y + "px";
+    particle.style.setProperty("--dx", (Math.cos(angle) * speed * 20) + "px");
+    particle.style.setProperty("--dy", (Math.sin(angle) * speed * 20) + "px");
+    
+    container.appendChild(particle);
+    
+    // 1秒後に削除
+    setTimeout(() => {
+        if (particle.parentNode) {
+            particle.parentNode.removeChild(particle);
+        }
+    }, 1000);
+      }]]>
+    </script>
+</svg>
+
+
+
+<![CDATA[
+const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+let colorIdx = 0;
+
+// 目の色
+setInterval(() => {
+    const left = document.getElementById("eye-left");
+    const right = document.getElementById("eye-right");
+    if (left && right) {
+        left.setAttribute("fill", colors[colorIdx]);
+        right.setAttribute("fill", colors[colorIdx]);
+        colorIdx = (colorIdx + 1) % colors.length;
+    }
+}, 300);
+
+const nose = document.getElementById("nose");
+const tip = document.getElementById("magic-tip");
+const particleContainer = document.getElementById("magic-particles");
+const lines = ["rain-line1", "rain-line2", "rain-line3", "rain-line4", "rain-line5", "rain-line6", "rain-line7"]
+              .map(id => document.getElementById(id));
+
+const colorline = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+let lineIndexes = lines.map((_, i) => i % colorline.length);
+let lineSpeeds = lines.map(() => 200 + Math.random() * 300);
+let hoverIntervals = [];
+
+const eyes = [{ el: document.getElementById("eye-left") }, { el: document.getElementById("eye-right") }];
+
+// --- 鼻のイベント修正 ---
+nose.addEventListener("mouseenter", () => {
+    nose.classList.add("rainbow-flow");
+    if (tip) tip.classList.add("hidden");
+    
+    // エラー箇所修正：container内を空にする
+    if (particleContainer) {
+        particleContainer.innerHTML = ""; 
+    }
+
+    if (hoverIntervals.length === 0) {
+        lines.forEach((line, i) => {
+            const interval = setInterval(() => {
+                line.setAttribute("stroke", colorline[lineIndexes[i]]);
+                lineIndexes[i] = (lineIndexes[i] + 1) % colorline.length;
+            }, lineSpeeds[i]);
+            hoverIntervals.push(interval);
+        });
+    }
+});
+
+nose.addEventListener("mouseleave", () => {
+    nose.classList.remove("rainbow-flow");
+    if (tip) tip.classList.remove("hidden");
+    lines.forEach(line => line.setAttribute("stroke", "black"));
+    hoverIntervals.forEach(clearInterval);
+    hoverIntervals = [];
+});
+
+// マウス移動
+let tipBaseX = 0, tipBaseY = 0;
+document.addEventListener("mousemove", (e) => {
+    const stick = document.getElementById("magic-stick");
+    if (stick) {
+        const x = e.pageX - 140;
+        const y = e.pageY - 10;
+        stick.style.left = x + "px";
+        stick.style.top = y + "px";
+        tipBaseX = x + 140;
+        tipBaseY = y + 6;
+    }
+
+    // 目の動き
+    eyes.forEach(eye => {
+        if (!eye.el) return;
+        const rect = eye.el.getBoundingClientRect();
+        const angle = Math.atan2(e.clientY - (rect.top + rect.height / 2), e.clientX - (rect.left + rect.width / 2));
+        eye.el.style.transform = `translate(${Math.cos(angle) * 5}px, ${Math.sin(angle) * 5}px)`;
+    });
+});
+
+// 星の生成ループ
+let particleAngle = 0;
+setInterval(() => {
+    if (!tipBaseX || !tip) return;
+    // 鼻が光っている間（ホバー中）は星を作らない
+    if (nose.classList.contains("rainbow-flow")) return;
+
+    particleAngle += 0.1;
+    const x = tipBaseX + Math.cos(particleAngle) * 18;
+    const y = tipBaseY + Math.sin(particleAngle) * 18;
+    
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+    
+    spawnParticle(x, y);
+}, 16);
+
+function spawnParticle(x, y) {
+    if (!particleContainer) return;
+    const p = document.createElementNS("http://www.w3.org/1999/xhtml", "div");
+    p.className = "particle";
+    const moveAngle = Math.random() * 2 * Math.PI;
+    const speed = Math.random() * 2 + 1;
+    
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+    p.style.setProperty("--dx", (Math.cos(moveAngle) * speed * 25) + "px");
+    p.style.setProperty("--dy", (Math.sin(moveAngle) * speed * 25) + "px");
+    
+    particleContainer.appendChild(p);
+    setTimeout(() => p.remove(), 1000);
+}
+]]>

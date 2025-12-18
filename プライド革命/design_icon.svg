@@ -1,0 +1,155 @@
+<svg width="800" height="800" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" id="main-svg">
+    <defs>
+        <linearGradient id="rainbow-fill" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:red" /><stop offset="16.6%" style="stop-color:orange" /><stop offset="33.2%" style="stop-color:yellow" /><stop offset="49.8%" style="stop-color:green" /><stop offset="66.4%" style="stop-color:blue" /><stop offset="83.0%" style="stop-color:indigo" /><stop offset="100%" style="stop-color:violet" />
+            <animateTransform attributeName="gradientTransform" type="translate" values="1 0; -1 0" dur="5s" repeatCount="indefinite"/>
+        </linearGradient>
+
+        <linearGradient id="rainbow-flow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="red" /><stop offset="14%" stop-color="orange" /><stop offset="28%" stop-color="yellow" /><stop offset="42%" stop-color="green" /><stop offset="57%" stop-color="blue" /><stop offset="71%" stop-color="indigo" /><stop offset="85%" stop-color="violet" /><stop offset="100%" stop-color="red" />
+            <animateTransform attributeName="gradientTransform" type="translate" values="1 0; -1 0" dur="8s" repeatCount="indefinite"/>
+        </linearGradient>
+        
+        <radialGradient id="blue-ellipse-bg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ADD8E6" /><stop offset="100%" stop-color="#191970" />
+        </radialGradient>
+
+        <polygon id="star-shape" points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35" scale="0.3"/>
+    </defs>
+
+    <style>
+        /* 全体のカーソルを消す */
+        svg { cursor: none; }
+        
+        /* 目の点滅 */
+        @keyframes blink {
+            0%, 95%, 100% { ry: 12px; }
+            97% { ry: 0.1px; } 
+        }
+        #eye-left, #eye-right {
+            animation: blink 3s infinite;
+            transition: transform 0.1s ease-out;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        /* 魔法のステッキ演出 */
+        #magic-stick-group { pointer-events: none; }
+        #magic-stick-rect {
+            fill: url(#rainbow-fill);
+            filter: drop-shadow(0 0 5px rgba(255,150,255,0.8));
+        }
+        #magic-star-head {
+            fill: white;
+            filter: drop-shadow(0 0 8px #ff47d8);
+            animation: star-glow 1s ease-in-out infinite alternate;
+        }
+        @keyframes star-glow {
+            from { transform: scale(0.3) translate(-50px, -50px); filter: brightness(1); }
+            to { transform: scale(0.35) translate(-50px, -50px); filter: brightness(1.5); }
+        }
+    </style>
+
+    <rect width="100%" height="100%" fill="url(#blue-ellipse-bg)" />
+
+    <path d="M 50 200 A 250 250 0 0 1 550 200" fill="none" stroke="url(#rainbow-flow)" stroke-width="5" stroke-linecap="round" />
+
+    <ellipse cx="245" cy="52" rx="20" ry="25" fill="white" stroke="#ccc" />
+    <ellipse cx="315" cy="52" rx="20" ry="25" fill="white" stroke="#ccc" />
+    <ellipse id="eye-left" cx="245" cy="52" rx="5" ry="12" fill="url(#rainbow-fill)" />
+    <ellipse id="eye-right" cx="315" cy="52" rx="5" ry="12" fill="url(#rainbow-fill)" />
+    
+    <g id="rainbow-lines">
+        <line id="rain-line1" x1="30" y1="80" x2="180" y2="110" stroke-width="3" />
+        <line id="rain-line2" x1="30" y1="130" x2="180" y2="130" stroke-width="3"/>
+        <line id="rain-line3" x1="30" y1="180" x2="180" y2="150" stroke-width="3"/> 
+        <line id="rain-line4" x1="340" y1="110" x2="503" y2="80" stroke-width="3" />
+        <line id="rain-line5" x1="340" y1="130" x2="520" y2="130" stroke-width="3" />
+        <line id="rain-line6" x1="340" y1="150" x2="520" y2="180" stroke-width="3" />
+        <line id="rain-line7" x1="280" y1="100" x2="280" y2="150" stroke-width="3" />
+    </g>
+    
+    <circle id="nose" cx="280" cy="85" r="14" fill="url(#rainbow-flow)" />
+
+    <g fill="url(#rainbow-flow)" font-family="Arial" font-weight="bold">
+        <text x="105" y="82" font-size="46">K S -</text>
+        <text x="215" y="98" font-size="96">9</text>
+        <text x="290" y="94" font-size="96">0</text>
+        <text x="360" y="92" font-size="96">3</text>
+    </g>
+
+    <g id="magic-stick-group">
+        <rect id="magic-stick-rect" width="100" height="8" rx="4" transform="rotate(-30) translate(-100, -4)" />
+        <use href="#star-shape" id="magic-star-head" />
+    </g>
+
+    <script type="text/ecmascript">
+    <![CDATA[
+        document.addEventListener("DOMContentLoaded", () => {
+            const svg = document.getElementById("main-svg");
+            const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+            const eyeLeft = document.getElementById("eye-left");
+            const eyeRight = document.getElementById("eye-right");
+            const stickGroup = document.getElementById("magic-stick-group");
+            const lines = ["1","2","3","4","5","6","7"].map(n => document.getElementById("rain-line"+n));
+
+            let lookInterval = null;
+            let mouseMoveTimer = null;
+
+            // --- 虹色ループアニメーション ---
+            lines.forEach((l, idx) => {
+                let cIdx = idx % colors.length;
+                setInterval(() => {
+                    l.setAttribute("stroke", colors[cIdx]);
+                    cIdx = (cIdx + 1) % colors.length;
+                }, 300 + Math.random() * 300);
+            });
+
+            // --- 座標変換関数 (画面のX,Y を SVG内の座標に変換) ---
+            function getSVGPoint(e) {
+                const pt = svg.createSVGPoint();
+                pt.x = e.clientX;
+                pt.y = e.clientY;
+                return pt.matrixTransform(svg.getScreenCTM().inverse());
+            }
+
+            // --- 待機キョロキョロアニメ ---
+            function startLook() {
+                if (lookInterval) return;
+                let pos = 0; let dir = 1;
+                lookInterval = setInterval(() => {
+                    pos += dir * 0.2;
+                    if (Math.abs(pos) >= 5) dir *= -1;
+                    eyeLeft.style.transform = `translate(${pos}px, 0)`;
+                    eyeRight.style.transform = `translate(${pos}px, 0)`;
+                }, 20);
+            }
+            function stopLook() { clearInterval(lookInterval); lookInterval = null; }
+
+            // --- マウス追従イベント ---
+            document.addEventListener("mousemove", (e) => {
+                stopLook();
+                const svgP = getSVGPoint(e);
+
+                // ステッキをマウス位置へ
+                stickGroup.setAttribute("transform", `translate(${svgP.x}, ${svgP.y})`);
+
+                // 目の追尾
+                [eyeLeft, eyeRight].forEach(el => {
+                    const cx = parseFloat(el.getAttribute("cx"));
+                    const cy = parseFloat(el.getAttribute("cy"));
+                    const angle = Math.atan2(svgP.y - cy, svgP.x - cx);
+                    const ox = Math.cos(angle) * 5;
+                    const oy = Math.sin(angle) * 5;
+                    el.style.transform = `translate(${ox}px, ${oy}px)`;
+                });
+
+                clearTimeout(mouseMoveTimer);
+                mouseMoveTimer = setTimeout(startLook, 150);
+            });
+
+            startLook();
+        });
+    ]]>
+    </script>
+</svg>
