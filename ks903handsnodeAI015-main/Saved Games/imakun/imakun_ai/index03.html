@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自然なレインボー動作アイコン</title>
+    
+    <style>
+        /* ================================================= */
+        /* 共通設定 */
+        /* ================================================= */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #a0d8ef; /* 明るい背景色を維持 */
+            font-family: sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* SVG全体をキョロキョロさせるためのコンテナ */
+        #svg-container {
+             margin-bottom: 20px;
+        }
+
+        /* ================================================= */
+        /* 目のアニメーション（キョロキョロ） */
+        /* ================================================= */
+        /* .iris を親要素ごと動かすことでキョロキョロを表現 */
+        .iris-wrapper {
+             transform-box: fill-box;
+             transform-origin: center;
+             animation-name: look;
+             animation-duration: 4s; /* ゆっくりキョロキョロ */
+             animation-timing-function: ease-in-out;
+             animation-iteration-count: infinite;
+             animation-direction: alternate;
+        }
+
+        /* @keyframes look: 横に動かしてキョロキョロを表現 */
+        @keyframes look {
+            0% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(-10px); }
+        }
+
+        /* ================================================= */
+        /* 🌈 流れる虹色アニメーション定義 ( shine ) */
+        /* ================================================= */
+
+        /* グラデーションを横方向に動かすキーフレーム */
+        @keyframes shine {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
+        }
+
+        .rainbow-box {
+            width: 300px; 
+            height: 50px;
+            margin-top: 30px;
+            border-radius: 5px;
+            
+            /* 流れる虹色のグラデーション */
+            background: linear-gradient(
+                90deg, 
+                #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000 
+            );
+            
+            /* サイズを広げ、アニメーション適用 */
+            background-size: 200% 100%;
+            animation: shine 6s linear infinite; 
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7); 
+        }
+
+        /* SVGテキストのスタイル */
+        .svg-title {
+            font-size: 24px;
+            color: #0a74da;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="svg-title">SVGアイコン (虹色+まばたき+キョロキョロ)</h1>
+    
+    <div id="svg-container" class="iris-wrapper">
+        <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="rainbow-fill" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:red" />
+                    <stop offset="16.6%" style="stop-color:orange" />
+                    <stop offset="33.2%" style="stop-color:yellow" />
+                    <stop offset="49.8%" style="stop-color:green" />
+                    <stop offset="66.4%" style="stop-color:blue" />
+                    <stop offset="83.0%" style="stop-color:indigo" />
+                    <stop offset="100%" style="stop-color:violet" />
+                </linearGradient>
+            </defs>
+            
+            <path
+                d="M 50 200 A 250 250 0 0 1 550 200"
+                fill="none"
+                stroke="black"
+                stroke-width="3"
+                stroke-linecap="round"
+            />
+            
+            <ellipse cx="245" cy="52" rx="15" ry="20" fill="white" stroke="black" stroke-width="1.5"/>
+            <ellipse cx="315" cy="52" rx="15" ry="20" fill="white" stroke="black" stroke-width="1.5"/>
+
+            <ellipse class="iris" cx="245" cy="52" rx="5" ry="12" fill="url(#rainbow-fill)" stroke="black" stroke-width="1.5">
+                <animate attributeName="ry" 
+                         values="12; 12; 0.1; 12" 
+                         keyTimes="0; 0.95; 0.97; 1" 
+                         dur="3s" 
+                         repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse class="iris" cx="315" cy="52" rx="5" ry="12" fill="url(#rainbow-fill)" stroke="black" stroke-width="1.5">  
+                <animate attributeName="ry" 
+                         values="12; 12; 0.1; 12" 
+                         keyTimes="0; 0.95; 0.97; 1" 
+                         dur="3s" 
+                         repeatCount="indefinite"/>
+            </ellipse>
+            
+            <line x1="30" y1="80" x2="180" y2="110" stroke="black" stroke-width="3"/>
+            <line x1="30" y1="130" x2="180" y2="130" stroke="black" stroke-width="2"/>
+            <line x1="30" y1="180" x2="180" y2="150" stroke="black" stroke-width="3"/> 
+            <line x2="503" y2="80" x1="340" y1="110" stroke="black" stroke-width="3"/> 
+            <line x2="520" y2="130" x1="340" y1="130" stroke="black" stroke-width="2"/> 
+            <line x2="520" y2="180" x1="340" y1="150" stroke="black" stroke-width="3"/>
+            
+            <circle cx="280" cy="85" r="14" fill="red" stroke="black" stroke-width="2.5"/>
+
+            <text x="105" y="82" font-family="Arial, sans-serif" font-size="46" fill="black">K S -</text>
+            <text x="215" y="98" font-family="Arial, sans-serif" font-size="96" fill="black">9</text>
+            <text x="290" y="94" font-family="Arial, sans-serif" font-size="96" fill="black">0</text>
+            <text x="360" y="92" font-family="Arial, sans-serif" font-size="96" fill="black">3</text>
+            <line x1="280" y1="100" x2="280" y2="150" stroke="black" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <h1 class="svg-title">流れる虹色アニメーション (CSS)</h1>
+    <div class="rainbow-box"></div>
+    
+</body>
+</html>

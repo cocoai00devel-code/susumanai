@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <title>AI音声入力アシスタントUI (テキスト/マイク対応)</title>
+    <link rel="stylesheet" href="imakun_ai/style_imakun.css">
+    <link rel="icon" href="design_icon.svg" type="image/svg+xml">
+    <style> 
+        /* ここに非常に長いCSSコードがすべて書かれていた */
+        /* html { ... } */
+        /* body { ... } */
+        /* ... 略 ... */
+    </style>
+</head>
+<body　oncontextmenu="return false;">
+    <canvas id="waveCanvas"></canvas>
+    
+    <div id="tapArea"></div>
+
+    <div id="transcript"></div> 
+    <div id="music-toggle-container">
+                <label for="music-toggle-checkbox">ミュージック ON/OFF</label>
+                <input type="checkbox" id="music-toggle-checkbox" checked>
+                <label for="music-toggle-checkbox" class="toggle-switch-label"></label>
+                <div id="musicPlayerContainer" style="position: fixed; bottom: 0; right: 0; width: 300px; height: 100px; z-index: 1000; overflow: hidden; opacity: 0;"></div>
+    </div>
+    
+    <div id="ui">
+        <div id="status-area">
+            イマジナリーナンバー<br>
+            通称GAIイマさんAI<br>
+            AIアシスタント待機中...
+        </div>
+        
+
+        <div id="input-controls">
+            <input type="text" id="messageInput" placeholder="ここに文章を入力するかまたは何か話してください....">
+            
+            <button id="sendBtn">
+                マイク/AIを<br>
+                リセットする
+            </button>
+            
+        </div>
+    </div>
+    
+<!-- <script></script> -->
+    <script src="imakun_ai/imakun_beta_2.js"></script>
+</body>
+</html>
+
+
+
+
+
