@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true, // これを追加
+    "esModuleInterop": true               // これも追加
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/execute", "destination": "/api/execute.rs" },
+    { "source": "/api/check", "destination": "/api/judgment.go" },
+    { "source": "/(.*)", "destination": "https://external-host.com/$1" }
+  ]
+}
